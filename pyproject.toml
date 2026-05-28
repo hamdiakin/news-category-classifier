@@ -1,0 +1,40 @@
+[project]
+name = "news-category-classifier"
+version = "0.1.0"
+description = "News article topic classification using TextCNN"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0",
+    "pytorch-lightning>=2.0",
+    "torchmetrics>=1.0",
+    "hydra-core>=1.3",
+    "omegaconf>=2.3",
+    "mlflow>=2.10",
+    "fire>=0.5",
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+    "scikit-learn>=1.4",
+    "pandas>=2.1",
+    "numpy>=1.26",
+    "dvc>=3.30",
+    "dvc-gdrive>=3.0",
+    "transformers>=4.38",
+    "kagglehub>=0.3",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["news_classifier*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["news_classifier"]

@@ -1,0 +1,15 @@
+defaults:
+  - model: textcnn
+  - training: default
+  - _self_
+
+data_dir: data
+max_len: 64
+min_freq: 2
+
+baseline:
+  tfidf_max_features: 50000
+
+logging:
+  experiment_name: news-classifier
+  mlflow_uri: http://127.0.0.1:8080

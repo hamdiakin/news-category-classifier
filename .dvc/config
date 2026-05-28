@@ -1,0 +1,11 @@
+[core]
+    remote = data_remote
+
+[cache]
+    dir = .dvc/cache
+
+['remote "data_remote"']
+    url = gdrive://1your_gdrive_folder_id_for_data
+
+['remote "model_remote"']
+    url = gdrive://1your_gdrive_folder_id_for_models
