@@ -4,3 +4,4 @@ batch_size: 128
 max_epochs: 20
 patience: 4
 seed: 42
+num_workers: 2

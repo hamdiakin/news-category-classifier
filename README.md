@@ -9,60 +9,63 @@ I'm using a TextCNN with GloVe embeddings as the main model. There's also a TF-I
 Python 3.10+ required.
 
 ```bash
-python -m venv .venv
+git clone https://github.com/hamdiakin/news-category-classifier.git
+cd news-category-classifier
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 pre-commit install
 ```
 
-If you want pretrained embeddings for TextCNN, grab GloVe:
-
-```bash
-wget https://nlp.stanford.edu/data/glove.6B.zip
-unzip glove.6B.zip -d data/
-```
-
 ## Data
 
-Dataset gets downloaded from Kaggle automatically the first time you run training. You'll need a Kaggle API token at `~/.kaggle/kaggle.json`.
-
-You can also download it manually:
+You need a Kaggle API token at `~/.kaggle/kaggle.json`. The dataset downloads automatically on first training run, or you can grab it manually:
 
 ```bash
 python commands.py download
 ```
 
-Data and model files are tracked with DVC. Pull them with:
+If data is already tracked with DVC:
 
 ```bash
 dvc pull
 ```
 
+Download GloVe embeddings (optional but recommended):
+
+```bash
+curl -L -o data/glove.6B.zip https://nlp.stanford.edu/data/glove.6B.zip
+unzip data/glove.6B.zip -d data/
+rm data/glove.6B.zip data/glove.6B.50d.txt data/glove.6B.200d.txt data/glove.6B.300d.txt
+```
+
 ## Train
 
-```bash
-python commands.py train
-```
-
-You can override config values from the command line:
-
-```bash
-python commands.py train --overrides="[training.lr=0.0005, training.max_epochs=30]"
-```
-
-To run the TF-IDF baseline instead:
-
-```bash
-python commands.py baseline
-```
-
-Metrics get logged to MLflow. Start the server before training:
+Start MLflow first (in a separate terminal):
 
 ```bash
 mlflow server --host 127.0.0.1 --port 8080
 ```
 
-Training plots end up in `plots/`.
+Then run training:
+
+```bash
+python commands.py train
+```
+
+Override config values if needed:
+
+```bash
+python commands.py train --overrides="[training.lr=0.0005, training.max_epochs=30]"
+```
+
+Run the TF-IDF baseline:
+
+```bash
+python commands.py baseline
+```
+
+After training, plots are saved to `plots/` and metrics are logged to MLflow (including hyperparams and git commit hash).
 
 ## Inference
 
@@ -78,7 +81,8 @@ news-category-classifier/
 ├── configs/
 │   ├── defaults.yaml
 │   ├── model/textcnn.yaml
-│   └── training/default.yaml
+│   ├── training/default.yaml
+│   └── serving/default.yaml
 ├── news_classifier/
 │   ├── data.py
 │   ├── model.py

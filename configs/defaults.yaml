@@ -1,6 +1,7 @@
 defaults:
   - model: textcnn
   - training: default
+  - serving: default
   - _self_
 
 data_dir: data
@@ -9,7 +10,10 @@ min_freq: 2
 
 baseline:
   tfidf_max_features: 50000
+  logreg_max_iter: 1000
+  logreg_C: 1.0
 
 logging:
   experiment_name: news-classifier
   mlflow_uri: http://127.0.0.1:8080
+  log_every_n_steps: 50
